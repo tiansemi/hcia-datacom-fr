@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Processus d'établissement d'une liaison PPP</title>
+  <desc id="desc">États Dead, Establish, Authenticate, Network et Terminate avec les négociations LCP, PAP ou CHAP et NCP.</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbfdff"/><stop offset="1" stop-color="#edf4f9"/></linearGradient>
+    <filter id="s3"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#18344b" flood-opacity=".14"/></filter>
+    <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#3c607d"/></marker>
+    <style>
+      .t{font:700 44px Arial,sans-serif;fill:#13293d}.sub{font:400 22px Arial,sans-serif;fill:#526a80}.state{font:700 25px Arial,sans-serif;fill:#102a43}.desc{font:400 18px Arial,sans-serif;fill:#38536b}.tag{font:700 17px Arial,sans-serif;fill:#fff}.line{stroke:#3c607d;stroke-width:5;fill:none;marker-end:url(#a3)}.fail{stroke:#c94b4b;stroke-width:4;stroke-dasharray:10 9;fill:none;marker-end:url(#a3)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" rx="36" fill="url(#bg3)"/>
+  <text x="800" y="76" text-anchor="middle" class="t">Établissement d'une liaison PPP</text>
+  <text x="800" y="114" text-anchor="middle" class="sub">Chaque négociation doit réussir avant le passage normal à l'étape suivante</text>
+
+  <path d="M310 350H430" class="line"/><path d="M720 350H840" class="line"/><path d="M1130 350H1250" class="line"/>
+  <path d="M1395 440V620H1170" class="line"/>
+  <path d="M1030 700H270V455" class="line"/>
+
+  <g filter="url(#s3)">
+    <rect x="90" y="260" width="220" height="190" rx="30" fill="#e8edf2" stroke="#b9c6d1" stroke-width="3"/>
+    <circle cx="200" cy="308" r="25" fill="#7d8b99"/><text x="200" y="372" text-anchor="middle" class="state">Dead</text>
+    <text x="200" y="405" text-anchor="middle" class="desc">liaison inactive</text>
+
+    <rect x="430" y="230" width="290" height="240" rx="30" fill="#d8ecff" stroke="#8abce5" stroke-width="3"/>
+    <rect x="500" y="260" width="150" height="38" rx="19" fill="#3b82b8"/><text x="575" y="285" text-anchor="middle" class="tag">LCP</text>
+    <text x="575" y="345" text-anchor="middle" class="state">Establish</text>
+    <text x="575" y="382" text-anchor="middle" class="desc">mode · MRU · magic number</text>
+    <text x="575" y="412" text-anchor="middle" class="desc">option d'authentification</text>
+
+    <rect x="840" y="230" width="290" height="240" rx="30" fill="#fff0cf" stroke="#e8ba58" stroke-width="3"/>
+    <rect x="900" y="260" width="170" height="38" rx="19" fill="#d69a18"/><text x="985" y="285" text-anchor="middle" class="tag">PAP / CHAP</text>
+    <text x="985" y="345" text-anchor="middle" class="state">Authenticate</text>
+    <text x="985" y="382" text-anchor="middle" class="desc">étape facultative</text>
+    <text x="985" y="412" text-anchor="middle" class="desc">vérification des pairs</text>
+
+    <rect x="1250" y="230" width="290" height="240" rx="30" fill="#def3e3" stroke="#84c795" stroke-width="3"/>
+    <rect x="1320" y="260" width="150" height="38" rx="19" fill="#37975a"/><text x="1395" y="285" text-anchor="middle" class="tag">NCP</text>
+    <text x="1395" y="345" text-anchor="middle" class="state">Network</text>
+    <text x="1395" y="382" text-anchor="middle" class="desc">IPCP pour IPv4</text>
+    <text x="1395" y="412" text-anchor="middle" class="desc">MPLSCP pour MPLS</text>
+
+    <rect x="1030" y="620" width="290" height="160" rx="30" fill="#f9dddd" stroke="#db8b8b" stroke-width="3"/>
+    <text x="1175" y="682" text-anchor="middle" class="state">Terminate</text>
+    <text x="1175" y="718" text-anchor="middle" class="desc">libération des ressources</text>
+    <text x="1175" y="746" text-anchor="middle" class="desc">puis retour à Dead</text>
+  </g>
+
+  <path d="M720 300C840 150 1110 150 1250 300" class="line"/>
+  <rect x="875" y="146" width="210" height="38" rx="19" fill="#4d738f"/><text x="980" y="171" text-anchor="middle" class="tag">sans authentification</text>
+
+  <path d="M575 470V560H1080V620" class="fail"/><path d="M985 470V560H1120V620" class="fail"/>
+  <text x="780" y="594" text-anchor="middle" class="desc" fill="#a23b3b">échec LCP, authentification ou NCP</text>
+
+  <rect x="365" y="822" width="870" height="48" rx="24" fill="#fff" stroke="#cad8e4" stroke-width="2"/>
+  <text x="800" y="852" text-anchor="middle" class="desc">LCP négocie la liaison · PAP/CHAP authentifie · NCP configure le protocole réseau</text>
+</svg>

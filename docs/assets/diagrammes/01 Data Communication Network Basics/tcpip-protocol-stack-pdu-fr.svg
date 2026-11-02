@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Pile TCP/IP équivalente, protocoles et PDU</title>
+  <desc id="desc">Cinq couches avec leurs fonctions, protocoles principaux et noms d'unités de données.</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbfdff"/><stop offset="1" stop-color="#edf4f8"/></linearGradient>
+    <filter id="s2"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1f3b52" flood-opacity=".12"/></filter>
+    <style>
+      .t{font:700 44px Arial,sans-serif;fill:#13293d}.sub{font:400 22px Arial,sans-serif;fill:#526a80}.h{font:700 20px Arial,sans-serif;fill:#fff}
+      .layer{font:700 25px Arial,sans-serif;fill:#102a43}.body{font:400 19px Arial,sans-serif;fill:#29445b}.pdu{font:700 23px Arial,sans-serif;fill:#fff}.pill{font:700 17px Arial,sans-serif;fill:#29445b}
+    </style>
+  </defs>
+  <rect width="1600" height="900" rx="36" fill="url(#bg2)"/>
+  <text x="800" y="70" text-anchor="middle" class="t">La pile TCP/IP équivalente en une vue</text>
+  <text x="800" y="108" text-anchor="middle" class="sub">Fonction, protocoles cités par Huawei et nom de la PDU à chaque couche</text>
+
+  <rect x="70" y="150" width="260" height="54" rx="14" fill="#22577a"/><text x="200" y="185" text-anchor="middle" class="h">COUCHE</text>
+  <rect x="350" y="150" width="420" height="54" rx="14" fill="#22577a"/><text x="560" y="185" text-anchor="middle" class="h">FONCTION PRINCIPALE</text>
+  <rect x="790" y="150" width="500" height="54" rx="14" fill="#22577a"/><text x="1040" y="185" text-anchor="middle" class="h">PROTOCOLES / TECHNOLOGIES</text>
+  <rect x="1310" y="150" width="220" height="54" rx="14" fill="#22577a"/><text x="1420" y="185" text-anchor="middle" class="h">PDU</text>
+
+  <g filter="url(#s2)">
+    <rect x="70" y="222" width="1460" height="112" rx="20" fill="#d8ecff"/>
+    <rect x="70" y="222" width="260" height="112" rx="20" fill="#b9dcfa"/><text x="200" y="286" text-anchor="middle" class="layer">Application</text>
+    <text x="380" y="266" class="body">Services réseau utilisés par</text><text x="380" y="293" class="body">les applications</text>
+    <text x="820" y="266" class="body">HTTP · DNS · DHCP · FTP · TFTP</text><text x="820" y="293" class="body">SMTP · Telnet · SNMP</text>
+    <rect x="1340" y="250" width="160" height="58" rx="29" fill="#3b82b8"/><text x="1420" y="287" text-anchor="middle" class="pdu">data</text>
+
+    <rect x="70" y="350" width="1460" height="112" rx="20" fill="#e2f5e6"/>
+    <rect x="70" y="350" width="260" height="112" rx="20" fill="#c4e9cb"/><text x="200" y="414" text-anchor="middle" class="layer">Transport</text>
+    <text x="380" y="394" class="body">Communication de bout en bout</text><text x="380" y="421" class="body">entre applications et ports</text>
+    <text x="820" y="414" class="body">TCP · UDP</text>
+    <rect x="1340" y="378" width="160" height="58" rx="29" fill="#37975a"/><text x="1420" y="415" text-anchor="middle" class="pdu">segment</text>
+
+    <rect x="70" y="478" width="1460" height="112" rx="20" fill="#fff2c9"/>
+    <rect x="70" y="478" width="260" height="112" rx="20" fill="#f7dea0"/><text x="200" y="542" text-anchor="middle" class="layer">Réseau</text>
+    <text x="380" y="522" class="body">Adressage logique et transfert</text><text x="380" y="549" class="body">entre réseaux</text>
+    <text x="820" y="542" class="body">IPv4 · IPv6 · ICMP · IGMP</text>
+    <rect x="1340" y="506" width="160" height="58" rx="29" fill="#d69a18"/><text x="1420" y="543" text-anchor="middle" class="pdu">packet</text>
+
+    <rect x="70" y="606" width="1460" height="112" rx="20" fill="#ffe8de"/>
+    <rect x="70" y="606" width="260" height="112" rx="20" fill="#f9cdbd"/><text x="200" y="670" text-anchor="middle" class="layer">Liaison</text>
+    <text x="380" y="650" class="body">Transfert sur un lien, tramage,</text><text x="380" y="677" class="body">adressage physique</text>
+    <text x="820" y="670" class="body">Ethernet · PPP · PPPoE</text>
+    <rect x="1340" y="634" width="160" height="58" rx="29" fill="#d96b43"/><text x="1420" y="671" text-anchor="middle" class="pdu">frame</text>
+
+    <rect x="70" y="734" width="1460" height="112" rx="20" fill="#eee3f8"/>
+    <rect x="70" y="734" width="260" height="112" rx="20" fill="#dcc4ef"/><text x="200" y="798" text-anchor="middle" class="layer">Physique</text>
+    <text x="380" y="778" class="body">Conversion et transport des bits</text><text x="380" y="805" class="body">sous forme de signaux</text>
+    <text x="820" y="778" class="body">Cuivre · Fibre · Câble hybride</text><text x="820" y="805" class="body">Ondes électromagnétiques</text>
+    <rect x="1340" y="762" width="160" height="58" rx="29" fill="#8757ad"/><text x="1420" y="799" text-anchor="middle" class="pdu">bitstream</text>
+  </g>
+</svg>

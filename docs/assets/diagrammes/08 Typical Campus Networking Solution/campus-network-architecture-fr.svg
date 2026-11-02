@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture hiérarchique et zones d’un réseau de campus</title>
+  <desc id="desc">Terminaux reliés à la couche d’accès, puis à l’agrégation et au cœur, lequel dessert la sortie Internet, le centre de données et la gestion du réseau.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fcfd"/><stop offset="1" stop-color="#eaf6f8"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#102a43" flood-opacity=".12"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#4f72c4"/></marker>
+  </defs>
+  <rect width="1200" height="650" rx="28" fill="url(#bg)"/>
+  <text x="60" y="62" font-family="Segoe UI,Arial,sans-serif" font-size="30" font-weight="700" fill="#102a43">Architecture type d’un réseau de campus</text>
+  <text x="60" y="94" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#486581">Des utilisateurs vers les services internes et externes</text>
+
+  <g stroke="#4f72c4" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M170 532V461"/><path d="M394 532V461"/><path d="M282 404V337"/><path d="M282 280V212"/>
+    <path d="M454 176H596"/>
+    <path d="M454 158V112H926V126"/>
+    <path d="M454 194V322H1018"/>
+  </g>
+
+  <g filter="url(#shadow)" font-family="Segoe UI,Arial,sans-serif">
+    <rect x="84" y="526" width="172" height="78" rx="18" fill="#fff" stroke="#b9dfe4" stroke-width="2"/>
+    <circle cx="124" cy="560" r="16" fill="#f2994a"/><path d="M104 590c5-15 35-15 40 0" fill="#f2994a"/>
+    <text x="153" y="557" font-size="18" font-weight="700" fill="#153f59">Employés</text><text x="153" y="582" font-size="15" fill="#486581">postes filaires</text>
+    <rect x="308" y="526" width="172" height="78" rx="18" fill="#fff" stroke="#b9dfe4" stroke-width="2"/>
+    <path d="M345 577q18-27 36 0M352 567q11-16 22 0" fill="none" stroke="#23a6a8" stroke-width="5" stroke-linecap="round"/>
+    <text x="390" y="557" font-size="18" font-weight="700" fill="#153f59">Invités</text><text x="390" y="582" font-size="15" fill="#486581">accès Wi-Fi</text>
+
+    <rect x="110" y="386" width="344" height="76" rx="18" fill="#23a6a8"/>
+    <text x="282" y="417" text-anchor="middle" font-size="23" font-weight="700" fill="#fff">Couche d’accès</text>
+    <text x="282" y="444" text-anchor="middle" font-size="15" fill="#e9ffff">Terminaux, imprimantes, AP</text>
+    <rect x="110" y="262" width="344" height="76" rx="18" fill="#4f72c4"/>
+    <text x="282" y="293" text-anchor="middle" font-size="23" font-weight="700" fill="#fff">Couche d’agrégation</text>
+    <text x="282" y="320" text-anchor="middle" font-size="15" fill="#f0f4ff">Consolidation, routage, politiques</text>
+    <rect x="110" y="138" width="344" height="76" rx="18" fill="#153f59"/>
+    <text x="282" y="169" text-anchor="middle" font-size="23" font-weight="700" fill="#fff">Couche cœur</text>
+    <text x="282" y="196" text-anchor="middle" font-size="15" fill="#d9edf5">Interconnexion rapide des zones</text>
+
+    <rect x="596" y="126" width="182" height="100" rx="20" fill="#fff" stroke="#f2994a" stroke-width="3"/>
+    <circle cx="687" cy="162" r="21" fill="#f2994a"/><path d="M653 166h68M661 151q26 22 52 0M661 177q26-22 52 0" fill="none" stroke="#fff" stroke-width="3"/>
+    <text x="687" y="205" text-anchor="middle" font-size="18" font-weight="700" fill="#153f59">Sortie / Internet</text>
+    <rect x="835" y="126" width="182" height="100" rx="20" fill="#fff" stroke="#23a6a8" stroke-width="3"/>
+    <rect x="879" y="145" width="94" height="38" rx="8" fill="#23a6a8"/><circle cx="892" cy="164" r="4" fill="#fff"/><circle cx="907" cy="164" r="4" fill="#fff"/>
+    <text x="926" y="205" text-anchor="middle" font-size="18" font-weight="700" fill="#153f59">Centre de données</text>
+    <rect x="1018" y="272" width="150" height="100" rx="20" fill="#fff" stroke="#4f72c4" stroke-width="3"/>
+    <circle cx="1093" cy="307" r="18" fill="none" stroke="#4f72c4" stroke-width="5"/><path d="M1093 281v9M1093 324v9M1067 307h9M1110 307h9" stroke="#4f72c4" stroke-width="5"/>
+    <text x="1093" y="353" text-anchor="middle" font-size="17" font-weight="700" fill="#153f59">Gestion réseau</text>
+  </g>
+
+  <rect x="608" y="464" width="500" height="118" rx="20" fill="#fff" stroke="#c8e5e9" stroke-width="2"/>
+  <text x="636" y="497" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="700" fill="#153f59">Lecture hiérarchique</text>
+  <text x="636" y="528" font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#486581">Accès → agrégation → cœur → zone de destination</text>
+  <text x="636" y="557" font-family="Segoe UI,Arial,sans-serif" font-size="16" fill="#486581">Chaque frontière porte les politiques adaptées à sa fonction.</text>
+</svg>

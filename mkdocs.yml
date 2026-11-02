@@ -1,0 +1,15 @@
+site_name: TianSemi — HCIA-Datacom V2.0 (FR)
+site_url: https://tiansemi.github.io/hcia-datacom/
+theme:
+  name: material
+  language: fr
+  features: [navigation.sections, navigation.top, search.suggest, content.code.copy]
+plugins:
+  - search:
+      lang: fr
+  - roamlinks
+markdown_extensions:
+  - tables
+  - admonition
+  - toc: {permalink: true}
+  - pymdownx.superfences
