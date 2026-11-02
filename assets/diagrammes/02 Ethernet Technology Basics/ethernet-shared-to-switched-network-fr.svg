@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Évolution d'un réseau Ethernet partagé vers un réseau commuté</title>
+  <desc id="desc">Comparaison d'un hub formant un seul domaine de collision avec un switch formant un domaine de collision par port, tout en conservant un domaine de broadcast.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#0b3155" flood-opacity=".12"/></filter>
+    <style>
+      text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#102f4d}.title{font-size:48px;font-weight:750}.sub{font-size:23px;fill:#4a6884}.h{font-size:30px;font-weight:750}.body{font-size:21px}.small{font-size:18px}.white{fill:#fff}.line{stroke:#547690;stroke-width:8;stroke-linecap:round}.dash{stroke:#ef7f45;stroke-width:4;stroke-dasharray:12 10;fill:none}.blue{fill:#1769aa}.teal{fill:#12a7a0}.pale{fill:#f5f9fc;stroke:#d7e5ef;stroke-width:2}.chip{fill:#fff;stroke:#b9d1e3;stroke-width:2}
+    </style>
+  </defs>
+  <rect width="1600" height="900" rx="38" fill="#f7fafc"/>
+  <text x="800" y="75" text-anchor="middle" class="title">D'Ethernet partagé à Ethernet commuté</text>
+  <text x="800" y="116" text-anchor="middle" class="sub">Le switch segmente les collisions, pas le domaine de broadcast</text>
+
+  <g transform="translate(70 165)">
+    <rect width="690" height="630" rx="34" class="pale" filter="url(#shadow)"/>
+    <text x="345" y="62" text-anchor="middle" class="h">Ethernet partagé</text>
+    <text x="345" y="95" text-anchor="middle" class="sub">Hub : tous les hôtes partagent le média</text>
+    <ellipse cx="345" cy="350" rx="285" ry="210" class="dash"/>
+    <g class="line">
+      <path d="M345 315 L175 210"/><path d="M345 315 L515 210"/><path d="M345 315 L175 485"/><path d="M345 315 L515 485"/>
+    </g>
+    <rect x="265" y="270" width="160" height="90" rx="20" class="blue"/>
+    <text x="345" y="326" text-anchor="middle" class="h white">HUB</text>
+    <g class="chip">
+      <rect x="105" y="155" width="140" height="75" rx="16"/><rect x="445" y="155" width="140" height="75" rx="16"/>
+      <rect x="105" y="465" width="140" height="75" rx="16"/><rect x="445" y="465" width="140" height="75" rx="16"/>
+    </g>
+    <g class="body"><text x="175" y="202" text-anchor="middle">Hôte A</text><text x="515" y="202" text-anchor="middle">Hôte B</text><text x="175" y="512" text-anchor="middle">Hôte C</text><text x="515" y="512" text-anchor="middle">Hôte D</text></g>
+    <rect x="105" y="570" width="480" height="43" rx="21" fill="#fff0e9"/>
+    <text x="345" y="599" text-anchor="middle" class="body" fill="#b74b22">1 domaine de collision · 1 domaine de broadcast</text>
+  </g>
+
+  <g transform="translate(840 165)">
+    <rect width="690" height="630" rx="34" class="pale" filter="url(#shadow)"/>
+    <text x="345" y="62" text-anchor="middle" class="h">Ethernet commuté</text>
+    <text x="345" y="95" text-anchor="middle" class="sub">Switch : un lien indépendant par port</text>
+    <g class="line"><path d="M345 315 L175 210"/><path d="M345 315 L515 210"/><path d="M345 315 L175 485"/><path d="M345 315 L515 485"/></g>
+    <rect x="245" y="270" width="200" height="90" rx="20" class="teal"/>
+    <text x="345" y="326" text-anchor="middle" class="h white">SWITCH</text>
+    <g fill="none" stroke="#12a7a0" stroke-width="4" stroke-dasharray="10 8">
+      <ellipse cx="175" cy="205" rx="105" ry="82"/><ellipse cx="515" cy="205" rx="105" ry="82"/><ellipse cx="175" cy="480" rx="105" ry="82"/><ellipse cx="515" cy="480" rx="105" ry="82"/>
+    </g>
+    <g class="chip"><rect x="105" y="155" width="140" height="75" rx="16"/><rect x="445" y="155" width="140" height="75" rx="16"/><rect x="105" y="465" width="140" height="75" rx="16"/><rect x="445" y="465" width="140" height="75" rx="16"/></g>
+    <g class="body"><text x="175" y="202" text-anchor="middle">Hôte A</text><text x="515" y="202" text-anchor="middle">Hôte B</text><text x="175" y="512" text-anchor="middle">Hôte C</text><text x="515" y="512" text-anchor="middle">Hôte D</text></g>
+    <rect x="65" y="570" width="560" height="43" rx="21" fill="#e4f7f5"/>
+    <text x="345" y="599" text-anchor="middle" class="body">4 domaines de collision · 1 domaine de broadcast</text>
+  </g>
+
+  <rect x="425" y="825" width="750" height="50" rx="25" fill="#e8f1f8"/>
+  <text x="800" y="858" text-anchor="middle" class="body">Les VLAN permettront ensuite de segmenter le domaine de broadcast.</text>
+</svg>

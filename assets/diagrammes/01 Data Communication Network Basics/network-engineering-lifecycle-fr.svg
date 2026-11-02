@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" role="img" aria-labelledby="title desc">
+  <title id="title">Cycle de l'ingénierie réseau</title>
+  <desc id="desc">Cycle continu allant des besoins à la planification, la conception, la construction, la mise en oeuvre, les tests, l'exploitation, le dépannage et l'optimisation.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071a2c"/>
+      <stop offset="1" stop-color="#123c54"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08a7b5"/>
+      <stop offset="1" stop-color="#087b94"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#00111f" flood-opacity="0.35"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#61d8df"/>
+    </marker>
+  </defs>
+
+  <rect width="1400" height="800" rx="34" fill="url(#bg)"/>
+  <circle cx="1280" cy="100" r="170" fill="#16c1cc" opacity="0.08"/>
+  <circle cx="90" cy="720" r="210" fill="#f6b900" opacity="0.07"/>
+
+  <text x="700" y="74" text-anchor="middle" fill="#ffffff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="44" font-weight="700">Cycle de l'ingénierie réseau</text>
+  <text x="700" y="116" text-anchor="middle" fill="#b9d9e6" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22">Transformer les exigences en un réseau exploitable, puis l'améliorer en continu</text>
+
+  <rect x="500" y="150" width="400" height="84" rx="42" fill="#f6b900" filter="url(#shadow)"/>
+  <text x="700" y="185" text-anchor="middle" fill="#102a43" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.2">POINT DE DÉPART</text>
+  <text x="700" y="216" text-anchor="middle" fill="#102a43" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="25" font-weight="700">Besoins et exigences réseau</text>
+
+  <g fill="none" stroke="#61d8df" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)">
+    <path d="M 700 234 C 700 270, 210 250, 210 302"/>
+    <path d="M 330 357 H 395"/>
+    <path d="M 635 357 H 700"/>
+    <path d="M 940 357 H 1005"/>
+    <path d="M 1125 412 V 472"/>
+    <path d="M 1005 527 H 940"/>
+    <path d="M 700 527 H 635"/>
+    <path d="M 395 527 H 330"/>
+    <path d="M 90 527 C 24 527, 24 357, 90 357" stroke-dasharray="13 12"/>
+  </g>
+
+  <g filter="url(#shadow)" font-family="Inter, Segoe UI, Arial, sans-serif">
+    <g transform="translate(90 302)">
+      <rect width="240" height="110" rx="22" fill="url(#card)"/>
+      <circle cx="36" cy="36" r="20" fill="#ffffff" opacity="0.18"/>
+      <text x="36" y="43" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">1</text>
+      <text x="120" y="72" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="700">Planifier</text>
+    </g>
+    <g transform="translate(395 302)">
+      <rect width="240" height="110" rx="22" fill="url(#card)"/>
+      <circle cx="36" cy="36" r="20" fill="#ffffff" opacity="0.18"/>
+      <text x="36" y="43" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">2</text>
+      <text x="120" y="72" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="700">Concevoir</text>
+    </g>
+    <g transform="translate(700 302)">
+      <rect width="240" height="110" rx="22" fill="url(#card)"/>
+      <circle cx="36" cy="36" r="20" fill="#ffffff" opacity="0.18"/>
+      <text x="36" y="43" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">3</text>
+      <text x="120" y="72" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="700">Construire</text>
+    </g>
+    <g transform="translate(1005 302)">
+      <rect width="240" height="110" rx="22" fill="url(#card)"/>
+      <circle cx="36" cy="36" r="20" fill="#ffffff" opacity="0.18"/>
+      <text x="36" y="43" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">4</text>
+      <text x="120" y="62" text-anchor="middle" fill="#ffffff" font-size="25" font-weight="700">Mettre en</text>
+      <text x="120" y="91" text-anchor="middle" fill="#ffffff" font-size="25" font-weight="700">oeuvre</text>
+    </g>
+    <g transform="translate(1005 472)">
+      <rect width="240" height="110" rx="22" fill="#146a82"/>
+      <circle cx="36" cy="36" r="20" fill="#ffffff" opacity="0.18"/>
+      <text x="36" y="43" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">5</text>
+      <text x="120" y="72" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="700">Tester</text>
+    </g>
+    <g transform="translate(700 472)">
+      <rect width="240" height="110" rx="22" fill="#146a82"/>
+      <circle cx="36" cy="36" r="20" fill="#ffffff" opacity="0.18"/>
+      <text x="36" y="43" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">6</text>
+      <text x="120" y="62" text-anchor="middle" fill="#ffffff" font-size="24" font-weight="700">Exploiter et</text>
+      <text x="120" y="91" text-anchor="middle" fill="#ffffff" font-size="24" font-weight="700">maintenir</text>
+    </g>
+    <g transform="translate(395 472)">
+      <rect width="240" height="110" rx="22" fill="#146a82"/>
+      <circle cx="36" cy="36" r="20" fill="#ffffff" opacity="0.18"/>
+      <text x="36" y="43" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">7</text>
+      <text x="120" y="72" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="700">Dépanner</text>
+    </g>
+    <g transform="translate(90 472)">
+      <rect width="240" height="110" rx="22" fill="#146a82"/>
+      <circle cx="36" cy="36" r="20" fill="#ffffff" opacity="0.18"/>
+      <text x="36" y="43" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">8</text>
+      <text x="120" y="72" text-anchor="middle" fill="#ffffff" font-size="27" font-weight="700">Optimiser</text>
+    </g>
+  </g>
+
+  <rect x="430" y="664" width="540" height="58" rx="29" fill="#ffffff" opacity="0.1"/>
+  <text x="700" y="701" text-anchor="middle" fill="#d9f4f6" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="23" font-weight="600">Boucle d'amélioration continue</text>
+  <text x="700" y="766" text-anchor="middle" fill="#87b7c7" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="17">TianSemi - synthèse pédagogique originale d'après HCIA-Datacom V2.0</text>
+</svg>

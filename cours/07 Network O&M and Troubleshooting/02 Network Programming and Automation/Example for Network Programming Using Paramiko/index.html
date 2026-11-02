@@ -1,0 +1,7230 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="MOULO OHOLO Jean Noel">
+      
+      
+        <link rel="canonical" href="https://tiansemi.github.io/hcia-datacom/cours/07%20Network%20O%26M%20and%20Troubleshooting/02%20Network%20Programming%20and%20Automation/Example%20for%20Network%20Programming%20Using%20Paramiko/">
+      
+      
+        <link rel="prev" href="../../01%20Network%20Device%20Management/SNMP/">
+      
+      
+        <link rel="next" href="../Introduction%20to%20Network%20Programming%20and%20Automation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Example for Network Programming Using Paramiko - TianSemi — HCIA-Datacom V2.0 (FR)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#exemple-de-programmation-reseau-avec-paramiko" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../../.." title="TianSemi — HCIA-Datacom V2.0 (FR)" class="md-header__button md-logo" aria-label="TianSemi — HCIA-Datacom V2.0 (FR)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TianSemi — HCIA-Datacom V2.0 (FR)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Example for Network Programming Using Paramiko
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="TianSemi — HCIA-Datacom V2.0 (FR)" class="md-nav__button md-logo" aria-label="TianSemi — HCIA-Datacom V2.0 (FR)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    TianSemi — HCIA-Datacom V2.0 (FR)
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom V2.0 en français
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cours
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cours
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom V2.0 Training
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--active"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00 Program Overview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    00 Program Overview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../00%20Program%20Overview/HCIA-Datacom%20V2.0%20Learning%20Path/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom V2.0 Learning Path
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../00%20Program%20Overview/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Program Overview
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Data Communication Network Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 Data Communication Network Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Communication Network Basics
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_2" id="__nav_2_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Data Communication Network Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 Data Communication Network Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/01%20Data%20Communication%20Network%20Basics/Data%20Communication%20Network%20Devices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Communication Network Devices
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/01%20Data%20Communication%20Network%20Basics/Data%20Communication%20Network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Communication Network
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/01%20Data%20Communication%20Network%20Basics/Data%20Communication%20Process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Communication Process
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/01%20Data%20Communication%20Network%20Basics/Network%20Engineering%20and%20Network%20Engineers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Engineering and Network Engineers
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--reviewed"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_3" id="__nav_2_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Network Reference Models
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 Network Reference Models
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/02%20Network%20Reference%20Models/Applications%20and%20Data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Applications and Data
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--reviewed"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/02%20Network%20Reference%20Models/Data%20Communication%20Process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Communication Process
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/02%20Network%20Reference%20Models/Network%20Reference%20Models%20and%20Standard%20Protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Reference Models and Standard Protocols
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_4" id="__nav_2_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Network Device Operating Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03 Network Device Operating Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/03%20Network%20Device%20Operating%20Systems/Configuring%20Network%20Devices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuring Network Devices
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/03%20Network%20Device%20Operating%20Systems/Logging%20In%20to%20Network%20Devices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging In to Network Devices
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%20Data%20Communication%20Network%20Basics/03%20Network%20Device%20Operating%20Systems/Operating%20System%20Overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating System Overview
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Ethernet Technology Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 Ethernet Technology Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ethernet Technology Basics
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_2" id="__nav_2_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Ethernet Switching Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 Ethernet Switching Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/01%20Ethernet%20Switching%20Basics/Overview%20of%20Ethernet%20Frames/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of Ethernet Frames
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/01%20Ethernet%20Switching%20Basics/Overview%20of%20the%20Ethernet%20Protocol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of the Ethernet Protocol
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/01%20Ethernet%20Switching%20Basics/Working%20Principles%20of%20Ethernet%20Switches/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working Principles of Ethernet Switches
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_3" id="__nav_2_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 VLAN Fundamentals and Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 VLAN Fundamentals and Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/02%20VLAN%20Fundamentals%20and%20Configuration/Basic%20Concepts%20of%20VLANs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Concepts of VLANs
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/02%20VLAN%20Fundamentals%20and%20Configuration/VLAN%20Application/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VLAN Application
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/02%20VLAN%20Fundamentals%20and%20Configuration/VLAN%20Configuration%20Examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VLAN Configuration Examples
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/02%20VLAN%20Fundamentals%20and%20Configuration/What%20Is%20a%20VLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What Is a VLAN?
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_4" id="__nav_2_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 STP Fundamentals and Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03 STP Fundamentals and Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/03%20STP%20Fundamentals%20and%20Configuration/Advanced%20Spanning%20Tree%20Protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Spanning Tree Protocols
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/03%20STP%20Fundamentals%20and%20Configuration/Basic%20Concepts%20of%20STP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Concepts of STP
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/03%20STP%20Fundamentals%20and%20Configuration/Basic%20STP%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic STP Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/03%20STP%20Fundamentals%20and%20Configuration/Overview%20of%20STP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of STP
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/03%20STP%20Fundamentals%20and%20Configuration/Working%20Principles%20of%20STP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working Principles of STP
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_5" id="__nav_2_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 Ethernet Link Aggregation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    04 Ethernet Link Aggregation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/04%20Ethernet%20Link%20Aggregation/Basic%20Concepts%20of%20Link%20Aggregation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Concepts of Link Aggregation
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/04%20Ethernet%20Link%20Aggregation/Link%20Aggregation%20Configuration%20Examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link Aggregation Configuration Examples
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/04%20Ethernet%20Link%20Aggregation/Link%20Aggregation%20in%20LACP%20Mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link Aggregation in LACP Mode
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%20Ethernet%20Technology%20Basics/04%20Ethernet%20Link%20Aggregation/Link%20Aggregation%20in%20Manual%20Mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Link Aggregation in Manual Mode
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 IP Technology Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03 IP Technology Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IP Technology Basics
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_2" id="__nav_2_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 IP Address and Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 IP Address and Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/01%20IP%20Address%20and%20Configuration/Fundamentals%20and%20Configuration%20of%20DHCP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentals and Configuration of DHCP
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/01%20IP%20Address%20and%20Configuration/ICMP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ICMP
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/01%20IP%20Address%20and%20Configuration/Introduction%20to%20IPv4%20Addresses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to IPv4 Addresses
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/01%20IP%20Address%20and%20Configuration/Network%20Layer%20Protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Layer Protocols
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/01%20IP%20Address%20and%20Configuration/Subnetting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Subnetting
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_3" id="__nav_2_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 IP Routing Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 IP Routing Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/02%20IP%20Routing%20Basics/Advanced%20Routing%20Features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Routing Features
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/02%20IP%20Routing%20Basics/Direct%20Routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Direct Routes
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/02%20IP%20Routing%20Basics/Overview%20of%20IP%20Routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of IP Routing
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/02%20IP%20Routing%20Basics/Static%20Routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Static Routes
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_4" id="__nav_2_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 OSPF Fundamentals and Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03 OSPF Fundamentals and Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/03%20OSPF%20Fundamentals%20and%20Configuration/Overview%20of%20OSPF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of OSPF
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/03%20OSPF%20Fundamentals%20and%20Configuration/Typical%20OSPF%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typical OSPF Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/03%20OSPF%20Fundamentals%20and%20Configuration/Working%20Principles%20of%20OSPF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working Principles of OSPF
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_5" id="__nav_2_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 IPv6 Address and Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    04 IPv6 Address and Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/04%20IPv6%20Address%20and%20Configuration/ICMPv6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ICMPv6
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/04%20IPv6%20Address%20and%20Configuration/IPv6%20Address%20Autoconfiguration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IPv6 Address Autoconfiguration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/04%20IPv6%20Address%20and%20Configuration/IPv6%20Address%20Configuration%20Example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IPv6 Address Configuration Example
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%20IP%20Technology%20Basics/04%20IPv6%20Address%20and%20Configuration/Overview%20of%20IPv6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of IPv6
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 Network Security and Services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    04 Network Security and Services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Security and Services
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_2" id="__nav_2_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 ACL Fundamentals and Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 ACL Fundamentals and Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/01%20ACL%20Fundamentals%20and%20Configuration/ACL%20Configuration%20Examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACL Configuration Examples
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/01%20ACL%20Fundamentals%20and%20Configuration/ACL%20Overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACL Overview
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/01%20ACL%20Fundamentals%20and%20Configuration/Fundamentals%20of%20ACL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentals of ACL
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_3" id="__nav_2_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 AAA Fundamentals and Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 AAA Fundamentals and Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/02%20AAA%20Fundamentals%20and%20Configuration/AAA%20Overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AAA Overview
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/02%20AAA%20Fundamentals%20and%20Configuration/Configuration%20Examples%20for%20AAA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Examples for AAA
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/02%20AAA%20Fundamentals%20and%20Configuration/Deploying%20AAA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploying AAA
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_4" id="__nav_2_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Network Services and Applications
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03 Network Services and Applications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/03%20Network%20Services%20and%20Applications/FTP%20for%20File%20Transfer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FTP for File Transfer
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/03%20Network%20Services%20and%20Applications/Overview%20of%20Network%20Services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of Network Services
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/03%20Network%20Services%20and%20Applications/SSH/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/03%20Network%20Services%20and%20Applications/Telnet%20for%20Remote%20Login/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telnet for Remote Login
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_5" id="__nav_2_6_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 NAT Fundamentals and Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    04 NAT Fundamentals and Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/04%20NAT%20Fundamentals%20and%20Configuration/Bidirectional%20NAT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bidirectional NAT
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/04%20NAT%20Fundamentals%20and%20Configuration/Destination%20NAT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Destination NAT
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/04%20NAT%20Fundamentals%20and%20Configuration/Overview%20of%20NAT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of NAT
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04%20Network%20Security%20and%20Services/04%20NAT%20Fundamentals%20and%20Configuration/Source%20NAT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source NAT
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Data Center Network Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    05 Data Center Network Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05%20Data%20Center%20Network%20Basics/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Center Network Basics
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_2" id="__nav_2_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Data Center Network Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 Data Center Network Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05%20Data%20Center%20Network%20Basics/01%20Data%20Center%20Network%20Basics/DC%20Development%20and%20Evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DC Development and Evolution
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05%20Data%20Center%20Network%20Basics/01%20Data%20Center%20Network%20Basics/Dual-Track%20Architecture%20of%20DCs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dual-Track Architecture of DCs
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05%20Data%20Center%20Network%20Basics/01%20Data%20Center%20Network%20Basics/General-Purpose%20Computing%20DCN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    General-Purpose Computing DCN
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05%20Data%20Center%20Network%20Basics/01%20Data%20Center%20Network%20Basics/Intelligent%20Computing%20DCN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intelligent Computing DCN
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05%20Data%20Center%20Network%20Basics/01%20Data%20Center%20Network%20Basics/What%20Is%20a%20DC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What Is a DC
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 WLAN Technology Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    06 WLAN Technology Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WLAN Technology Basics
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8_2" id="__nav_2_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 WLAN Technology Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 WLAN Technology Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/01%20WLAN%20Technology%20Basics/Basic%20WLAN%20Concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic WLAN Concepts
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/01%20WLAN%20Technology%20Basics/Introduction%20to%20802.11%20Standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to 802.11 Standards
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/01%20WLAN%20Technology%20Basics/Key%20WLAN%20Technologies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key WLAN Technologies
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/01%20WLAN%20Technology%20Basics/WLAN%20Overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WLAN Overview
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8_3" id="__nav_2_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 WLAN Networking Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 WLAN Networking Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/02%20WLAN%20Networking%20Architecture/WLAN%20Networking%20Application%20Scenarios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WLAN Networking Application Scenarios
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/02%20WLAN%20Networking%20Architecture/WLAN%20Networking%20Architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WLAN Networking Architecture
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/02%20WLAN%20Networking%20Architecture/WLAN%20Networking%20Overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WLAN Networking Overview
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8_4" id="__nav_2_8_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 WLAN Fundamentals and Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03 WLAN Fundamentals and Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/03%20WLAN%20Fundamentals%20and%20Configuration/WLAN%20Fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WLAN Fundamentals
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/03%20WLAN%20Fundamentals%20and%20Configuration/WLAN%20Service%20Configuration%20Examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WLAN Service Configuration Examples
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%20WLAN%20Technology%20Basics/03%20WLAN%20Fundamentals%20and%20Configuration/WLAN%20Service%20Configuration%20Procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WLAN Service Configuration Procedure
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Network O&M and Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    07 Network O&M and Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network O&M and Troubleshooting
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9_2" id="__nav_2_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Network Device Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 Network Device Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01%20Network%20Device%20Management/Basic%20Concepts%20of%20Network%20Management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Concepts of Network Management
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01%20Network%20Device%20Management/Introduction%20to%20iMaster%20NCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to iMaster NCE
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01%20Network%20Device%20Management/NETCONF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NETCONF
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01%20Network%20Device%20Management/RESTCONF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RESTCONF
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01%20Network%20Device%20Management/SNMP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SNMP
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_9_3" id="__nav_2_9_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Network Programming and Automation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_9_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_9_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 Network Programming and Automation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Example for Network Programming Using Paramiko
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Example for Network Programming Using Paramiko
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-1-preparer-linterface-de-gestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 — Préparer l’interface de gestion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-2-activer-stelnet-et-les-vty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 — Activer STelnet et les VTY
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-3-creer-le-compte-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 — Créer le compte SSH
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-4-generer-la-paire-de-cles-sur-le-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 4 — Générer la paire de clés sur le client
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-5-importer-la-cle-publique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 5 — Importer la clé publique
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-6-enregistrer-la-cle-dhote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 6 — Enregistrer la clé d’hôte
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-7-script-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 7 — Script Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variante-du-lab-guide-mot-de-passe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variante du Lab Guide : mot de passe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vérification
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-du-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting du lab
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-de-preuve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist de preuve
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-retenir-pour-lexamen-hcia-datacom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        À retenir pour l’examen HCIA-Datacom
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revision-tiansemi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Révision TianSemi
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Références
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Introduction%20to%20Network%20Programming%20and%20Automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to Network Programming and Automation
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Introduction%20to%20Paramiko%20APIs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to Paramiko APIs
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Overview%20of%20Programming%20Languages%20and%20Introduction%20to%20Python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of Programming Languages and Introduction to Python
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9_4" id="__nav_2_9_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Network Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_9_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03 Network Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03%20Network%20Troubleshooting/Common%20Network%20Troubleshooting%20Cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common Network Troubleshooting Cases
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03%20Network%20Troubleshooting/Overview%20of%20Network%20Troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of Network Troubleshooting
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 Typical Campus Networking Solution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    08 Typical Campus Networking Solution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08%20Typical%20Campus%20Networking%20Solution/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typical Campus Networking Solution
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_10_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10_2" id="__nav_2_10_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Typical Campus Networking Solution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_10_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 Typical Campus Networking Solution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08%20Typical%20Campus%20Networking%20Solution/01%20Typical%20Campus%20Networking%20Solution/Basic%20Concepts%20of%20Campus%20Networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Concepts of Campus Networks
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_10_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10_3" id="__nav_2_10_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Typical Campus Networking Solution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_10_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 Typical Campus Networking Solution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08%20Typical%20Campus%20Networking%20Solution/02%20Typical%20Campus%20Networking%20Solution/Practices%20in%20Campus%20Network%20Projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Practices in Campus Network Projects
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_11" id="__nav_2_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    09 Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/01%20Basic%20Operations%20on%20Huawei%20Network%20Devices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Operations on Huawei Network Devices
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/02%20VLAN%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VLAN Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/03%20STP%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spanning Tree Protocol Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/04%20Ethernet%20Link%20Aggregation%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ethernet Link Aggregation Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/05%20Direct%20Route%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Direct Route Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/06%20Static%20Route%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Static Route Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/07%20IP%20Address%20Autoconfiguration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IP Address Autoconfiguration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/08%20OSPF%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OSPF Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/09%20IPv6%20Address%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IPv6 Address Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/10%20ACL%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACL Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/11%20File%20Management%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Management Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/12%20Remote%20Login%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Remote Login Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/13%20NAT%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NAT Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/14%20WAC%20%2B%20Fit%20AP%20Networking%20Configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WAC + Fit AP Networking Configuration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/15%20Network%20Programming%20and%20Automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Programming and Automation (Optional)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/16%20Network%20Troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Troubleshooting
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/17%20Campus%20Network%20Deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Campus Network Deployment
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09%20Labs/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom Labs
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_12" id="__nav_2_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 Exam Preparation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    10 Exam Preparation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10%20Exam%20Preparation/HCIA-Datacom%20Command%20Checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom Command Checklist
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10%20Exam%20Preparation/HCIA-Datacom%20Flashcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom Flashcards
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10%20Exam%20Preparation/HCIA-Datacom%20Mock%20Quiz%2001/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom Mock Quiz 01
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10%20Exam%20Preparation/HCIA-Datacom%20Revision%20Plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom Revision Plan
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10%20Exam%20Preparation/HCIA-Datacom%20Weak%20Points%20Tracker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom Weak Points Tracker
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10%20Exam%20Preparation/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom Exam Preparation
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_13" id="__nav_2_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 Content Outputs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    11 Content Outputs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../11%20Content%20Outputs/Home/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCIA-Datacom Content Outputs
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--draft"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectif
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-1-preparer-linterface-de-gestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 — Préparer l’interface de gestion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-2-activer-stelnet-et-les-vty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 — Activer STelnet et les VTY
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-3-creer-le-compte-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 — Créer le compte SSH
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-4-generer-la-paire-de-cles-sur-le-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 4 — Générer la paire de clés sur le client
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-5-importer-la-cle-publique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 5 — Importer la clé publique
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-6-enregistrer-la-cle-dhote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 6 — Enregistrer la clé d’hôte
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-7-script-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 7 — Script Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variante-du-lab-guide-mot-de-passe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variante du Lab Guide : mot de passe
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vérification
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-du-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting du lab
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-de-preuve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist de preuve
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-retenir-pour-lexamen-hcia-datacom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        À retenir pour l’examen HCIA-Datacom
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revision-tiansemi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Révision TianSemi
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Références
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="exemple-de-programmation-reseau-avec-paramiko">Exemple de programmation réseau avec Paramiko<a class="headerlink" href="#exemple-de-programmation-reseau-avec-paramiko" title="Permanent link">&para;</a></h1>
+<h2 id="objectif">Objectif<a class="headerlink" href="#objectif" title="Permanent link">&para;</a></h2>
+<p>Configurer un switch Huawei comme serveur STelnet, authentifier un client Python par clé RSA, ouvrir une session avec Paramiko et récupérer la configuration courante.</p>
+<p><img alt="Chaîne du lab Paramiko avec authentification RSA" src="../../../../assets/diagrammes/07%20Network%20O%26M%20and%20Troubleshooting/paramiko-rsa-lab-fr.svg" /></p>
+<p>Le Training Material utilise <code>192.168.56.100/24</code> sur le serveur et <code>192.168.56.1/24</code> sur le client. Le Lab Guide propose un exercice analogue avec authentification par mot de passe. La variante RSA ci-dessous suit le Training Material et évite de stocker un mot de passe dans le script.</p>
+<h2 id="etape-1-preparer-linterface-de-gestion">Étape 1 — Préparer l’interface de gestion<a class="headerlink" href="#etape-1-preparer-linterface-de-gestion" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>&lt;HUAWEI&gt; system-view immediately
+[HUAWEI] sysname SSH-Server
+[SSH-Server] interface GE 1/0/0
+[SSH-Server-GE1/0/0] ip address 192.168.56.100 24
+[SSH-Server-GE1/0/0] quit
+</code></pre></div>
+<p>Depuis le client, vérifiez d’abord la joignabilité de <code>192.168.56.100</code>.</p>
+<h2 id="etape-2-activer-stelnet-et-les-vty">Étape 2 — Activer STelnet et les VTY<a class="headerlink" href="#etape-2-activer-stelnet-et-les-vty" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>[SSH-Server] stelnet server enable
+[SSH-Server] ssh server-source all-interface
+[SSH-Server] user-interface vty 0 4
+[SSH-Server-ui-vty0-4] authentication-mode aaa
+[SSH-Server-ui-vty0-4] protocol inbound ssh
+[SSH-Server-ui-vty0-4] quit
+</code></pre></div>
+<p><code>all-interface</code> facilite le lab. En production, limitez la source aux interfaces de gestion nécessaires.</p>
+<h2 id="etape-3-creer-le-compte-ssh">Étape 3 — Créer le compte SSH<a class="headerlink" href="#etape-3-creer-le-compte-ssh" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>[SSH-Server] aaa
+[SSH-Server-aaa] local-user client password irreversible-cipher &lt;secret-de-secours&gt;
+[SSH-Server-aaa] local-user client privilege level 3
+[SSH-Server-aaa] local-user client service-type ssh
+[SSH-Server-aaa] quit
+
+[SSH-Server] ssh user client
+[SSH-Server] ssh user client authentication-type rsa
+[SSH-Server] ssh user client service-type stelnet
+</code></pre></div>
+<p>Le mot de passe local existe dans l’exemple officiel, mais le compte SSH est configuré ici pour l’authentification RSA.</p>
+<h2 id="etape-4-generer-la-paire-de-cles-sur-le-client">Étape 4 — Générer la paire de clés sur le client<a class="headerlink" href="#etape-4-generer-la-paire-de-cles-sur-le-client" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>ssh-keygen -t rsa -b 4096
+</code></pre></div>
+<p>Choisissez un chemin protégé et une passphrase. Le fichier privé ne quitte jamais le client ; seul le contenu de <code>id_rsa.pub</code> est importé sur le switch.</p>
+<h2 id="etape-5-importer-la-cle-publique">Étape 5 — Importer la clé publique<a class="headerlink" href="#etape-5-importer-la-cle-publique" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>[SSH-Server] rsa peer-public-key rsa01 encoding-type openssh
+[SSH-Server-rsa-public-key] public-key-code begin
+[SSH-Server-rsa-public-key-rsa-key-code] ssh-rsa AAAA... &lt;clé-publique-client&gt;
+[SSH-Server-rsa-public-key-rsa-key-code] peer-public-key end
+[SSH-Server] ssh user client assign rsa-key rsa01
+</code></pre></div>
+<p>Recopiez la clé publique sans la tronquer. Le contenu réel est propre à votre client ; ne réutilisez jamais la chaîne abrégée du support.</p>
+<h2 id="etape-6-enregistrer-la-cle-dhote">Étape 6 — Enregistrer la clé d’hôte<a class="headerlink" href="#etape-6-enregistrer-la-cle-dhote" title="Permanent link">&para;</a></h2>
+<p>Avant d’exécuter Python, établissez une première connexion SSH contrôlée et vérifiez l’empreinte du switch :</p>
+<div class="highlight"><pre><span></span><code>ssh client@192.168.56.100
+</code></pre></div>
+<p>Cette étape alimente le fichier <code>known_hosts</code>. Paramiko pourra ensuite refuser une identité inconnue ou modifiée.</p>
+<h2 id="etape-7-script-python">Étape 7 — Script Python<a class="headerlink" href="#etape-7-script-python" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">paramiko</span>
+
+
+<span class="n">HOST</span> <span class="o">=</span> <span class="s2">"192.168.56.100"</span>
+<span class="n">USERNAME</span> <span class="o">=</span> <span class="s2">"client"</span>
+<span class="n">PRIVATE_KEY</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">".ssh"</span> <span class="o">/</span> <span class="s2">"id_rsa"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read_until_idle</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Lit la sortie jusqu’à inactivité ou expiration du délai."""</span>
+    <span class="n">channel</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">deadline</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
+    <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">deadline</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">65535</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TimeoutError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">b</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">load_system_host_keys</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">set_missing_host_key_policy</span><span class="p">(</span><span class="n">paramiko</span><span class="o">.</span><span class="n">RejectPolicy</span><span class="p">())</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="n">hostname</span><span class="o">=</span><span class="n">HOST</span><span class="p">,</span>
+            <span class="n">port</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="n">USERNAME</span><span class="p">,</span>
+            <span class="n">key_filename</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PRIVATE_KEY</span><span class="p">),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">channel</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">invoke_shell</span><span class="p">()</span>
+        <span class="n">read_until_idle</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="n">channel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"screen-length 0 temporary</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">channel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"display current-configuration</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">read_until_idle</span><span class="p">(</span><span class="n">channel</span><span class="p">))</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+<p>Le support officiel utilise <code>AutoAddPolicy()</code>, attend trois secondes puis appelle une seule fois <code>recv()</code>. La version TianSemi conserve les mêmes étapes fonctionnelles, mais vérifie la clé d’hôte, borne la connexion et lit dans une boucle.</p>
+<h2 id="variante-du-lab-guide-mot-de-passe">Variante du Lab Guide : mot de passe<a class="headerlink" href="#variante-du-lab-guide-mot-de-passe" title="Permanent link">&para;</a></h2>
+<p>Le Lab Guide configure l’utilisateur <code>python</code>, puis utilise :</p>
+<div class="highlight"><pre><span></span><code><span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+    <span class="s2">"192.168.1.254"</span><span class="p">,</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">"python"</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=&lt;</span><span class="n">secret</span><span class="o">-</span><span class="n">fourni</span><span class="o">-</span><span class="n">au</span><span class="o">-</span><span class="n">runtime</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Ne placez pas le secret littéralement dans le fichier. Utilisez une saisie <code>getpass</code>, une variable d’environnement protégée ou un gestionnaire de secrets selon l’environnement.</p>
+<h2 id="verification">Vérification<a class="headerlink" href="#verification" title="Permanent link">&para;</a></h2>
+<p>Le résultat doit montrer :</p>
+<ul>
+<li>une session VTY SSH ouverte ;</li>
+<li>la commande de désactivation de pagination acceptée ;</li>
+<li>la sortie de <code>display current-configuration</code> ;</li>
+<li>aucune erreur d’authentification ou de clé d’hôte ;</li>
+<li>la fermeture de la session après lecture.</li>
+</ul>
+<p>Sur le switch, vérifiez au besoin les utilisateurs en ligne et les paramètres SSH. En cas d’échec, testez d’abord le client OpenSSH avant Paramiko afin de séparer un problème serveur d’un problème Python.</p>
+<h2 id="troubleshooting-du-lab">Troubleshooting du lab<a class="headerlink" href="#troubleshooting-du-lab" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptôme</th>
+<th>Cause probable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ping impossible</td>
+<td>Adresse, interface, route ou pare-feu local.</td>
+</tr>
+<tr>
+<td>OpenSSH fonctionne, Paramiko échoue</td>
+<td>Chemin de clé, passphrase, known_hosts ou version d’algorithme.</td>
+</tr>
+<tr>
+<td><code>Server not found in known_hosts</code></td>
+<td>Clé d’hôte non enregistrée ou mauvais fichier.</td>
+</tr>
+<tr>
+<td>Authentification refusée</td>
+<td>Clé publique mal importée, utilisateur non associé ou type RSA absent.</td>
+</tr>
+<tr>
+<td>Prompt visible mais sortie incomplète</td>
+<td>Pagination, temps de lecture ou boucle de réception.</td>
+</tr>
+<tr>
+<td>Le script reste bloqué</td>
+<td>Prompt interactif ou timeout non géré.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="checklist-de-preuve">Checklist de preuve<a class="headerlink" href="#checklist-de-preuve" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] connectivité IP client–serveur ;</li>
+<li>[ ] service STelnet actif et VTY limité à SSH ;</li>
+<li>[ ] compte AAA et utilisateur SSH cohérents ;</li>
+<li>[ ] empreinte d’hôte vérifiée ;</li>
+<li>[ ] clé publique associée au bon utilisateur ;</li>
+<li>[ ] sortie complète de la configuration ;</li>
+<li>[ ] aucun secret ou clé privée ajouté à Git ;</li>
+<li>[ ] session fermée même en cas d’exception.</li>
+</ul>
+<h2 id="a-retenir-pour-lexamen-hcia-datacom">À retenir pour l’examen HCIA-Datacom<a class="headerlink" href="#a-retenir-pour-lexamen-hcia-datacom" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Le serveur doit disposer d’une adresse de gestion, de STelnet, de VTY AAA et d’un utilisateur SSH.</li>
+<li>La clé publique du client est importée et affectée à l’utilisateur ; la clé privée reste côté client.</li>
+<li><code>invoke_shell()</code> convient à une CLI interactive et à plusieurs commandes.</li>
+<li><code>screen-length 0 temporary</code> évite la pagination de la sortie.</li>
+<li>Le code doit fermer la connexion après l’opération.</li>
+<li>AutoAddPolicy facilite le lab, mais RejectPolicy et known_hosts protègent l’identité du serveur.</li>
+</ul>
+<h2 id="revision-tiansemi">Révision TianSemi<a class="headerlink" href="#revision-tiansemi" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Quelles configurations serveur précèdent l’exécution de Paramiko ?</li>
+<li>Pourquoi <code>protocol inbound ssh</code> est-il configuré sur les VTY ?</li>
+<li>Quelle différence existe entre clé d’hôte et clé cliente RSA ?</li>
+<li>Quelle partie de la paire RSA est importée sur le switch ?</li>
+<li>Pourquoi désactiver temporairement la pagination ?</li>
+<li>Pourquoi le script utilise-t-il <code>try/finally</code> ?</li>
+<li>Comment diagnostiquer séparément le serveur SSH et le code Paramiko ?</li>
+<li>Pourquoi ne faut-il pas stocker un mot de passe dans le script ?</li>
+</ol>
+<h2 id="references">Références<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Huawei, <em>HCIA-Datacom V2.0 Training Material</em>, pages PDF 1012 à 1019.</li>
+<li>Huawei, <em>HCIA-Datacom V2.0 Lab Guide</em>, pages PDF 188 à 197, correspondant aux pages 186 à 195 du document, lab « Network Programming and Automation (Optional) ».</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.sections", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

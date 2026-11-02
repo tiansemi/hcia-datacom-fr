@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">Relations entre SSID, VAP, BSS, BSSID et ESS</title>
+  <desc id="desc">Deux points d’accès portent un même SSID Employés dans deux BSS aux BSSID distincts, formant un ESS. Le premier point d’accès héberge aussi un VAP Invités distinct.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fcfd"/><stop offset="1" stop-color="#eef7f8"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#143b4e" flood-opacity=".14"/></filter>
+    <style>
+      .title{font:700 30px Arial,sans-serif;fill:#102a43}.sub{font:400 16px Arial,sans-serif;fill:#486581}.h{font:700 20px Arial,sans-serif;fill:#102a43}.body{font:400 15px Arial,sans-serif;fill:#334e68}.small{font:400 13px Arial,sans-serif;fill:#486581}.white{fill:#fff}.mono{font:600 13px Consolas,monospace;fill:#334e68}
+    </style>
+  </defs>
+  <rect width="1200" height="650" rx="26" fill="url(#bg)"/>
+  <text x="60" y="62" class="title">Du nom visible à l’identité technique du WLAN</text>
+  <text x="60" y="92" class="sub">Un SSID peut être commun à plusieurs cellules ; chaque VAP conserve un BSSID unique.</text>
+
+  <rect x="48" y="125" width="1104" height="430" rx="24" fill="#fff" stroke="#c8e2e5" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="72" y="148" width="1056" height="270" rx="20" fill="#effafa" stroke="#23a6a8" stroke-width="2" stroke-dasharray="9 7"/>
+  <rect x="92" y="166" width="170" height="34" rx="17" fill="#127b80"/>
+  <text x="177" y="189" text-anchor="middle" class="white" style="font:700 15px Arial,sans-serif">ESS « Employes »</text>
+
+  <g transform="translate(112 225)">
+    <rect width="420" height="165" rx="18" fill="#f8fbff" stroke="#4f72c4" stroke-width="2"/>
+    <circle cx="55" cy="58" r="30" fill="#4f72c4"/><path d="M35 58q20-22 40 0M42 66q13-14 26 0M53 75h4" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    <text x="100" y="42" class="h">AP 1 · VAP Employes</text>
+    <text x="100" y="72" class="body">SSID : Employes</text>
+    <text x="100" y="98" class="mono">BSSID : 60DE-4476-E360</text>
+    <rect x="25" y="120" width="370" height="30" rx="15" fill="#e6edff"/>
+    <text x="210" y="141" text-anchor="middle" class="body">VAP + stations associées = BSS 1</text>
+  </g>
+
+  <g transform="translate(668 225)">
+    <rect width="420" height="165" rx="18" fill="#f8fbff" stroke="#4f72c4" stroke-width="2"/>
+    <circle cx="55" cy="58" r="30" fill="#4f72c4"/><path d="M35 58q20-22 40 0M42 66q13-14 26 0M53 75h4" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    <text x="100" y="42" class="h">AP 2 · VAP Employes</text>
+    <text x="100" y="72" class="body">SSID : Employes</text>
+    <text x="100" y="98" class="mono">BSSID : 60DE-5561-E470</text>
+    <rect x="25" y="120" width="370" height="30" rx="15" fill="#e6edff"/>
+    <text x="210" y="141" text-anchor="middle" class="body">VAP + stations associées = BSS 2</text>
+  </g>
+
+  <path d="M532 307h136" stroke="#23a6a8" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="600" cy="307" r="23" fill="#23a6a8"/>
+  <text x="600" y="312" text-anchor="middle" class="white" style="font:700 14px Arial,sans-serif">même</text>
+  <text x="600" y="344" text-anchor="middle" class="small">SSID partagé</text>
+
+  <g transform="translate(112 448)">
+    <rect width="420" height="82" rx="16" fill="#fff7ed" stroke="#f2994a" stroke-width="2"/>
+    <text x="22" y="30" class="h">AP 1 · autre VAP</text>
+    <text x="22" y="57" class="body">SSID : Invites · autre BSS · autre BSSID</text>
+  </g>
+  <path d="M322 418v30" stroke="#f2994a" stroke-width="3"/>
+  <text x="560" y="476" class="h">À distinguer</text>
+  <text x="560" y="503" class="body">SSID = nom logique visible et réutilisable</text>
+  <text x="560" y="529" class="body">BSSID = adresse MAC unique du VAP</text>
+
+  <rect x="48" y="579" width="1104" height="43" rx="14" fill="#153f59"/>
+  <text x="600" y="606" text-anchor="middle" class="white" style="font:700 17px Arial,sans-serif">1 VAP ↔ 1 BSS ↔ 1 BSSID · plusieurs BSS partageant un SSID → 1 ESS</text>
+</svg>
+

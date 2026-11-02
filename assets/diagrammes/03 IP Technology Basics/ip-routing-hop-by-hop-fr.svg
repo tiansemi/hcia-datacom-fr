@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Routage IP saut par saut</title>
+  <desc id="desc">Un poste source remet un paquet à sa passerelle, deux routeurs prennent successivement une décision et le dernier saut livre le paquet au réseau de destination.</desc>
+  <defs>
+    <filter id="shadow"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#12324f" flood-opacity=".13"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 Z" fill="#52738d"/></marker>
+    <style>text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#12324f}.title{font-size:46px;font-weight:760}.sub{font-size:22px;fill:#526e87}.label{font-size:25px;font-weight:730}.body{font-size:19px}.white{fill:#fff}.card{fill:#fff;stroke:#d3e4ef;stroke-width:2}</style>
+  </defs>
+  <rect width="1600" height="900" rx="38" fill="#f7fafc"/>
+  <text x="800" y="76" text-anchor="middle" class="title">Le routeur décide du prochain saut, pas du trajet complet</text>
+  <text x="800" y="116" text-anchor="middle" class="sub">Les adresses IP restent stables ; l'en-tête Ethernet change à chaque lien</text>
+  <path d="M285 430 H505 M705 430 H895 M1095 430 H1315" stroke="#52738d" stroke-width="10" fill="none" marker-end="url(#arrow)"/>
+  <g filter="url(#shadow)">
+    <rect x="80" y="320" width="240" height="220" rx="28" class="card"/>
+    <circle cx="200" cy="390" r="48" fill="#1c70b0"/>
+    <rect x="166" y="370" width="68" height="42" rx="5" fill="#fff"/><rect x="188" y="416" width="24" height="9" fill="#fff"/>
+    <text x="200" y="485" text-anchor="middle" class="label">Hôte source</text>
+    <text x="200" y="517" text-anchor="middle" class="body">192.168.1.2</text>
+    <rect x="480" y="295" width="250" height="270" rx="30" fill="#1c70b0"/>
+    <circle cx="605" cy="390" r="55" fill="#fff" opacity=".18"/>
+    <path d="M565 390 H645 M605 350 V430" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+    <text x="605" y="490" text-anchor="middle" class="label white">Routeur R1</text>
+    <text x="605" y="525" text-anchor="middle" class="body white">table → next hop R2</text>
+    <rect x="870" y="295" width="250" height="270" rx="30" fill="#10a6a0"/>
+    <circle cx="995" cy="390" r="55" fill="#fff" opacity=".18"/>
+    <path d="M955 390 H1035 M995 350 V430" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+    <text x="995" y="490" text-anchor="middle" class="label white">Routeur R2</text>
+    <text x="995" y="525" text-anchor="middle" class="body white">route directe → hôte</text>
+    <rect x="1280" y="320" width="240" height="220" rx="28" class="card"/>
+    <circle cx="1400" cy="390" r="48" fill="#7d56b3"/>
+    <rect x="1366" y="370" width="68" height="42" rx="5" fill="#fff"/><rect x="1388" y="416" width="24" height="9" fill="#fff"/>
+    <text x="1400" y="485" text-anchor="middle" class="label">Hôte destination</text>
+    <text x="1400" y="517" text-anchor="middle" class="body">192.168.2.2</text>
+  </g>
+  <g>
+    <rect x="210" y="670" width="1180" height="100" rx="30" fill="#e8f1f7"/>
+    <text x="800" y="711" text-anchor="middle" class="label">À chaque routeur : destination IP → table de routage → interface + prochain saut</text>
+    <text x="800" y="747" text-anchor="middle" class="body">Le chemin retour doit être connu séparément.</text>
+  </g>
+</svg>

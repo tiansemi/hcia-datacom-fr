@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Décision d'un commutateur Ethernet après réception d'une trame</title>
+  <desc id="desc">Le switch apprend l'adresse MAC source, cherche l'adresse MAC destination puis diffuse, transfère ou supprime la trame.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#143754" flood-opacity=".13"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 L12 6 L0 12 z" fill="#55748d"/></marker>
+    <style>text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:#12324f}.title{font-size:46px;font-weight:760}.sub{font-size:22px;fill:#506c85}.h{font-size:27px;font-weight:740}.body{font-size:20px}.small{font-size:17px}.white{fill:#fff}.box{fill:#fff;stroke:#d6e4ee;stroke-width:2}.arrow{stroke:#55748d;stroke-width:6;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1600" height="900" rx="38" fill="#f7fafc"/>
+  <text x="800" y="70" text-anchor="middle" class="title">Comment un switch traite une trame Ethernet</text>
+  <text x="800" y="109" text-anchor="middle" class="sub">Apprendre la source, rechercher la destination, décider</text>
+
+  <g filter="url(#shadow)">
+    <rect x="565" y="150" width="470" height="105" rx="26" fill="#1769aa"/>
+    <text x="800" y="194" text-anchor="middle" class="h white">1 · Réception de la trame</text>
+    <text x="800" y="228" text-anchor="middle" class="body white">port d'entrée + SMAC + DMAC</text>
+    <path d="M800 255 L800 300" class="arrow"/>
+    <rect x="505" y="310" width="590" height="105" rx="26" fill="#e1f3f2" stroke="#10a6a0" stroke-width="3"/>
+    <text x="800" y="355" text-anchor="middle" class="h">2 · Apprendre la SMAC</text>
+    <text x="800" y="387" text-anchor="middle" class="body">associer la source au port d'entrée et au VLAN</text>
+    <path d="M800 415 L800 460" class="arrow"/>
+    <rect x="505" y="470" width="590" height="105" rx="26" fill="#fff" stroke="#b8cfdf" stroke-width="3"/>
+    <text x="800" y="515" text-anchor="middle" class="h">3 · Rechercher la DMAC</text>
+    <text x="800" y="547" text-anchor="middle" class="body">consulter la table d'adresses MAC</text>
+  </g>
+
+  <path d="M650 575 L285 655" class="arrow"/><path d="M800 575 L800 655" class="arrow"/><path d="M950 575 L1315 655" class="arrow"/>
+
+  <g transform="translate(80 670)" filter="url(#shadow)">
+    <rect width="430" height="150" rx="28" class="box"/>
+    <text x="215" y="43" text-anchor="middle" class="h" fill="#ef7f45">DMAC inconnue</text>
+    <text x="215" y="80" text-anchor="middle" class="body">Flooding</text>
+    <text x="215" y="112" text-anchor="middle" class="small">tous les autres ports du domaine</text>
+  </g>
+  <g transform="translate(585 670)" filter="url(#shadow)">
+    <rect width="430" height="150" rx="28" class="box"/>
+    <text x="215" y="43" text-anchor="middle" class="h" fill="#10a6a0">DMAC connue</text>
+    <text x="215" y="80" text-anchor="middle" class="body">Forwarding</text>
+    <text x="215" y="112" text-anchor="middle" class="small">vers le port associé, s'il est différent</text>
+  </g>
+  <g transform="translate(1090 670)" filter="url(#shadow)">
+    <rect width="430" height="150" rx="28" class="box"/>
+    <text x="215" y="43" text-anchor="middle" class="h" fill="#7c55b5">Même port</text>
+    <text x="215" y="80" text-anchor="middle" class="body">Discarding</text>
+    <text x="215" y="112" text-anchor="middle" class="small">ne pas renvoyer sur le segment d'entrée</text>
+  </g>
+  <text x="800" y="866" text-anchor="middle" class="body">Règle d'examen : le switch apprend la source et cherche la destination.</text>
+</svg>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Encapsulation, transit intermédiaire et décapsulation</title>
+  <desc id="desc">Le client encapsule les données à travers cinq couches, le switch et le routeur les transfèrent, puis le serveur les décapsule.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbfdff"/><stop offset="1" stop-color="#edf4f9"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#19364f" flood-opacity=".14"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#426984"/></marker>
+    <style>
+      .title{font:700 43px Arial,sans-serif;fill:#13293d}.subtitle{font:400 21px Arial,sans-serif;fill:#526a80}.head{font:700 27px Arial,sans-serif;fill:#fff}
+      .layer{font:700 21px Arial,sans-serif;fill:#102a43}.pdu{font:400 17px Arial,sans-serif;fill:#38536b}.tag{font:700 16px Arial,sans-serif;fill:#fff}.device{font:700 24px Arial,sans-serif;fill:#102a43}.small{font:400 17px Arial,sans-serif;fill:#38536b}
+      .flow{stroke:#426984;stroke-width:5;fill:none;marker-end:url(#arrow)}.dash{stroke:#7993a8;stroke-width:3;stroke-dasharray:8 8;fill:none}
+    </style>
+  </defs>
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <text x="800" y="66" text-anchor="middle" class="title">Du navigateur au serveur web</text>
+  <text x="800" y="103" text-anchor="middle" class="subtitle">Encapsulation sur le client · traitement intermédiaire · décapsulation sur le serveur</text>
+
+  <rect x="60" y="140" width="470" height="60" rx="18" fill="#22577a"/><text x="295" y="178" text-anchor="middle" class="head">Émetteur : encapsulation</text>
+  <g filter="url(#shadow)">
+    <rect x="80" y="224" width="430" height="92" rx="18" fill="#d8ecff"/><text x="110" y="260" class="layer">Application</text><text x="110" y="289" class="pdu">Data · requête HTTP</text><rect x="385" y="243" width="96" height="50" rx="25" fill="#3b82b8"/><text x="433" y="274" text-anchor="middle" class="tag">data</text>
+    <rect x="80" y="332" width="430" height="92" rx="18" fill="#e2f5e6"/><text x="110" y="368" class="layer">Transport</text><text x="110" y="397" class="pdu">TCP header + Data</text><rect x="372" y="351" width="109" height="50" rx="25" fill="#37975a"/><text x="426" y="382" text-anchor="middle" class="tag">segment</text>
+    <rect x="80" y="440" width="430" height="92" rx="18" fill="#fff2c9"/><text x="110" y="476" class="layer">Réseau</text><text x="110" y="505" class="pdu">IP header + Segment</text><rect x="372" y="459" width="109" height="50" rx="25" fill="#d69a18"/><text x="426" y="490" text-anchor="middle" class="tag">packet</text>
+    <rect x="80" y="548" width="430" height="92" rx="18" fill="#ffe8de"/><text x="110" y="584" class="layer">Liaison</text><text x="110" y="613" class="pdu">Eth header + Packet + FCS</text><rect x="372" y="567" width="109" height="50" rx="25" fill="#d96b43"/><text x="426" y="598" text-anchor="middle" class="tag">frame</text>
+    <rect x="80" y="656" width="430" height="92" rx="18" fill="#eee3f8"/><text x="110" y="692" class="layer">Physique</text><text x="110" y="721" class="pdu">Bits convertis en signaux</text><rect x="355" y="675" width="126" height="50" rx="25" fill="#8757ad"/><text x="418" y="706" text-anchor="middle" class="tag">bitstream</text>
+  </g>
+  <path d="M295 316V327" class="flow"/><path d="M295 424V435" class="flow"/><path d="M295 532V543" class="flow"/><path d="M295 640V651" class="flow"/>
+
+  <rect x="570" y="140" width="460" height="60" rx="18" fill="#2f6f73"/><text x="800" y="178" text-anchor="middle" class="head">Réseau intermédiaire</text>
+  <path d="M510 702H620" class="flow"/><path d="M780 702H840" class="flow"/><path d="M1000 702H1090" class="flow"/>
+  <g filter="url(#shadow)">
+    <rect x="620" y="555" width="160" height="190" rx="28" fill="#e5f0f7" stroke="#8fb1c8" stroke-width="3"/>
+    <rect x="660" y="584" width="80" height="50" rx="14" fill="#3b82b8"/><text x="700" y="616" text-anchor="middle" class="tag">L2</text>
+    <text x="700" y="675" text-anchor="middle" class="device">Switch</text><text x="700" y="707" text-anchor="middle" class="small">commutation</text>
+    <rect x="840" y="555" width="160" height="190" rx="28" fill="#e5f0f7" stroke="#8fb1c8" stroke-width="3"/>
+    <rect x="880" y="584" width="80" height="50" rx="14" fill="#d69a18"/><text x="920" y="616" text-anchor="middle" class="tag">L3</text>
+    <text x="920" y="675" text-anchor="middle" class="device">Routeur</text><text x="920" y="707" text-anchor="middle" class="small">routage</text>
+  </g>
+  <path d="M700 540V265H550" class="dash"/><text x="785" y="295" text-anchor="middle" class="small">Le switch traite les informations de couche 2</text>
+  <path d="M920 540V365H1050" class="dash"/><text x="800" y="395" text-anchor="middle" class="small">Le routeur traite les informations de couche 3</text>
+
+  <rect x="1070" y="140" width="470" height="60" rx="18" fill="#c43d3d"/><text x="1305" y="178" text-anchor="middle" class="head">Récepteur : décapsulation</text>
+  <g filter="url(#shadow)">
+    <rect x="1090" y="224" width="430" height="92" rx="18" fill="#d8ecff"/><text x="1120" y="260" class="layer">Application</text><text x="1120" y="289" class="pdu">Données remises au serveur</text><rect x="1395" y="243" width="96" height="50" rx="25" fill="#3b82b8"/><text x="1443" y="274" text-anchor="middle" class="tag">data</text>
+    <rect x="1090" y="332" width="430" height="92" rx="18" fill="#e2f5e6"/><text x="1120" y="368" class="layer">Transport</text><text x="1120" y="397" class="pdu">Traitement TCP et ports</text><rect x="1382" y="351" width="109" height="50" rx="25" fill="#37975a"/><text x="1436" y="382" text-anchor="middle" class="tag">segment</text>
+    <rect x="1090" y="440" width="430" height="92" rx="18" fill="#fff2c9"/><text x="1120" y="476" class="layer">Réseau</text><text x="1120" y="505" class="pdu">Traitement de l'en-tête IP</text><rect x="1382" y="459" width="109" height="50" rx="25" fill="#d69a18"/><text x="1436" y="490" text-anchor="middle" class="tag">packet</text>
+    <rect x="1090" y="548" width="430" height="92" rx="18" fill="#ffe8de"/><text x="1120" y="584" class="layer">Liaison</text><text x="1120" y="613" class="pdu">Traitement Ethernet et FCS</text><rect x="1382" y="567" width="109" height="50" rx="25" fill="#d96b43"/><text x="1436" y="598" text-anchor="middle" class="tag">frame</text>
+    <rect x="1090" y="656" width="430" height="92" rx="18" fill="#eee3f8"/><text x="1120" y="692" class="layer">Physique</text><text x="1120" y="721" class="pdu">Signaux reçus, bits restitués</text><rect x="1365" y="675" width="126" height="50" rx="25" fill="#8757ad"/><text x="1428" y="706" text-anchor="middle" class="tag">bitstream</text>
+  </g>
+  <path d="M1305 651V640" class="flow"/><path d="M1305 543V532" class="flow"/><path d="M1305 435V424" class="flow"/><path d="M1305 327V316" class="flow"/>
+
+  <rect x="300" y="800" width="1000" height="58" rx="29" fill="#fff" stroke="#cad8e4" stroke-width="2"/>
+  <text x="800" y="837" text-anchor="middle" class="small">Chaque couche ajoute ses informations à l'émission et les traite dans l'ordre inverse à la réception.</text>
+</svg>
